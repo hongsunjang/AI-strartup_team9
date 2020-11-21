@@ -13,10 +13,6 @@ dotenv.config();
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-app.get("/", (req,res)=>{
-    res.send(`host: ${process.env.host} 비밀번호: ${process.env.password}`);
-});
-
 // DB 연동
 var mysql      = require('mysql');
 var db = mysql.createConnection({
@@ -44,7 +40,7 @@ app.get('/api/diary', function(req, res){
 
 app.get('/api/diary/:diary_date', function(req,res){
   var filtered_date = path.parse(req.params.diary_date).base;
-  db.query(`SELECT content FROM contents WHERE written_date = ?`, [date], 
+  db.query(`SELECT content FROM contents WHERE written_date = ?`, [filtered_date], 
     function(error, date){
       res.json(date);
     }
@@ -92,6 +88,6 @@ app.post('/api/rating', function(req, res){
   );
 });
 
-app.listen(9000, function() {
-  console.log('Example app listening on port 9000!')
+app.listen(3000, function() {
+  console.log('Example app listening on port 3000!')
 });
