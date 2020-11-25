@@ -32,7 +32,7 @@ app.get('/api/diary', function(req, res){
   var q = req.query;
   var month = q.month;
   var year = q.year;
-  db.query(`SELECT DAY(written_date) FROM contents WHERE YEAR(written_date) = ? AND MONTH(written_date) = ?`, [year, month], function(error, date){
+  db.query(`SELECT DAY(written_date) AS day FROM contents WHERE YEAR(written_date) = ? AND MONTH(written_date) = ?`, [year, month], function(error, date){
       res.json(date);
     }
   );
@@ -52,6 +52,7 @@ app.post('/api/create_diary', function(req, res){
     var post = req.body;
     var date = post.date;
     var content = post.content;
+    
     // AI 통신 code 들어갈 곳 
     var feeling = 1;
 
