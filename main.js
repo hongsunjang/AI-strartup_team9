@@ -40,9 +40,15 @@ app.get('/api/diary', function(req, res){
 
 app.get('/api/diary/:diary_date', function(req,res){
   var filtered_date = path.parse(req.params.diary_date).base;
-  db.query(`SELECT content FROM contents WHERE written_date = ?`, [filtered_date], 
-    function(error, date){
-      res.json(date);
+  console.log(filtered_date);
+  var sql =`SELECT c.content, s.saying_content, s.saying_author `+
+           `FROM contents c JOIN sayings s ON c.saying_id = s.saying_id `+
+           `WHERE c.written_date = ?`;
+  db.query(sql, [filtered_date], 
+    function(error, result){
+      if(error) throw error;
+      console.log(result);
+      res.json(result);
     }
   );
 });
@@ -78,15 +84,17 @@ app.post('/api/rating', function(req, res){
     db.query(total_query, [date, saying_id, pass, saying_id, date],
       function(error, result){
         if(error)throw error;
+	res.json(result);
+      }
+    );
+  }else{
+    db.query(total_query, [date, saying_id, pass],
+      function(error, result){
+        if(error)throw error;
+	res.json(result);
       }
     );
   }
-  
-  db.query(total_query, [date, saying_id, pass],
-    function(error, result){
-      if(error)throw error;
-    }
-  );
 });
 
 app.listen(3000, function() {
