@@ -13,10 +13,6 @@ dotenv.config();
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
 
-app.get("/", (req,res)=>{
-    res.send(`host: ${process.env.host} 비밀번호: ${process.env.password}`);
-});
-
 // DB 연동
 var mysql      = require('mysql');
 var db = mysql.createConnection({
@@ -36,7 +32,7 @@ app.get('/api/diary', function(req, res){
   var q = req.query;
   var month = q.month;
   var year = q.year;
-  db.query(`SELECT DAY(written_date) FROM contents WHERE YEAR(written_date) = ? AND MONTH(written_date) = ?`, [year, month], function(error, date){
+  db.query(`SELECT DAY(written_date) AS day FROM contents WHERE YEAR(written_date) = ? AND MONTH(written_date) = ?`, [year, month], function(error, date){
       res.json(date);
     }
   );
@@ -44,9 +40,9 @@ app.get('/api/diary', function(req, res){
 
 app.get('/api/diary/:diary_date', function(req,res){
   var filtered_date = path.parse(req.params.diary_date).base;
-  db.query(`SELECT content FROM contents WHERE written_date = ?`, [date], 
-    function(error, date){
-      res.json(date);
+  db.query(`SELECT contents.content, sayings.saying_content FROM contents JOIN sayings ON contents.saying_id = sayings.saying_id WHERE contents.written_date = ?`, [filtered_date], 
+    function(error, result){
+      res.json(result);
     }
   );
 });
@@ -81,17 +77,19 @@ app.post('/api/rating', function(req, res){
     db.query(total_query, [date, saying_id, pass, saying_id, date],
       function(error, result){
         if(error)throw error;
+	res.json(result);
+      }
+    );
+  }else{
+    db.query(total_query, [date, saying_id, pass],
+      function(error, result){
+        if(error)throw error;
+	res.json(result);
       }
     );
   }
-  
-  db.query(total_query, [date, saying_id, pass],
-    function(error, result){
-      if(error)throw error;
-    }
-  );
 });
 
-app.listen(9000, function() {
-  console.log('Example app listening on port 9000!')
+app.listen(3000, function() {
+  console.log('Example app listening on port 3000!')
 });
