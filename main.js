@@ -57,6 +57,7 @@ app.get('/api/create_diary', function(req, res){
     var date = post.date;
     var content = post.content;
     */
+   var content = "hello";
 
     // AI 통신 code 들어갈 곳 
     var options = {
