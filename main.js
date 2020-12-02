@@ -79,7 +79,7 @@ app.post('/api/create_diary', function(req, res){
     var feeling = 1;
     
     var insert_query = `INSERT INTO contents(user_id, written_date, content) VALUES(0,?,?);`;
-    var select_query = `SELECT saying_id, saying_content, saying_author FROM sayings WHERE feeling = ? ORDER BY DBMS_RANDOM.RANDOM() LIMITS 6;`;
+    var select_query = `SELECT saying_id, saying_content, saying_author FROM sayings WHERE feeling = ? ORDER BY rand() LIMIT 6 ;`;
     var total_query = insert_query + select_query;
     db.query( total_query, [date, content, feeling],
       function(error, result){
