@@ -100,12 +100,14 @@ app.post('/api/rating', function(req, res){
     db.query(total_query, [date, saying_id, pass, saying_id, date],
       function(error, result){
         if(error)throw error;
+        res.json(result);
       }
     );
   } else{
     db.query(total_query, [date, saying_id, pass],
       function(error, result){
         if(error)throw error;
+        res.json(result);
       }
     );
   }
