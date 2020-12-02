@@ -40,8 +40,9 @@ app.get('/api/diary', function(req, res){
 
 app.get('/api/diary/:diary_date', function(req,res){
   var filtered_date = path.parse(req.params.diary_date).base;
-  db.query(`SELECT contents.content, sayings.saying_content FROM contents JOIN sayings ON contents.saying_id = sayings.saying_id WHERE contents.written_date = ? `, [filtered_date], 
+  db.query(`SELECT contents.content, sayings.saying_content, sayings.saying_author FROM contents LEFT JOIN sayings ON contents.saying_id = sayings.saying_id WHERE contents.written_date = ? `, [filtered_date], 
     function(error, result){
+      if(error) throw error;
       console.log( result);
       res.json(result);
     }
@@ -78,7 +79,7 @@ app.post('/api/create_diary', function(req, res){
     var feeling = 1;
     
     var insert_query = `INSERT INTO contents(user_id, written_date, content) VALUES(0,?,?);`;
-    var select_query = `SELECT saying_id, saying_content, saying_author FROM sayings WHERE feeling = ? ORDER BY DBMS_RANDOM.RANDOM() LIMITS 2;`;
+    var select_query = `SELECT saying_id, saying_content, saying_author FROM sayings WHERE feeling = ? ORDER BY DBMS_RANDOM.RANDOM() LIMITS 6;`;
     var total_query = insert_query + select_query;
     db.query( total_query, [date, content, feeling],
       function(error, result){
