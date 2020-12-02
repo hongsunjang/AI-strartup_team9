@@ -51,13 +51,14 @@ app.get('/api/diary/:diary_date', function(req,res){
 var PythonShell = require('python-shell');
 
 //route, routing
-app.get('/api/create_diary', function(req, res){
-    /*
+app.post('/api/create_diary', function(req, res){
+    
     var post = req.body;
     var date = post.date;
     var content = post.content;
-    */
-   var content = "hello";
+    
+    /*
+    var content = "hello";
 
     // AI 통신 code 들어갈 곳 
     var options = {
@@ -73,9 +74,9 @@ app.get('/api/create_diary', function(req, res){
       console.log('results: %j', results);
     
     });
-    
+    */
     var feeling = 1;
-    /*
+    
     var insert_query = `INSERT INTO contents(user_id, written_date, content) VALUES(0,?,?);`;
     var select_query = `SELECT saying_id, saying_content, saying_author FROM sayings WHERE feeling = ? ORDER BY DBMS_RANDOM.RANDOM() LIMITS 2;`;
     var total_query = insert_query + select_query;
@@ -85,7 +86,6 @@ app.get('/api/create_diary', function(req, res){
         res.json(result[1]);
       }
     );
-    */
 });
 
 app.post('/api/rating', function(req, res){
