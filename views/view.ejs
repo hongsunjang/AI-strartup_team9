@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>ejs example</title>
+  </head>
+  <body>
+    example ejs
+    <h1><%= data %></h1>
+    
+    <form method="post" action ="http://localhost:3000/src/api/" enctype = "multipart/form-data">
+        <div>
+        file: <input type="file" name ="userfile" id = "imageFileOpenInput">
+        task_name: <input type="text" name ="task_name">
+        type_name: <input type="text" name ="type_name">
+        user_id: <input type="text" name ="user_id">
+        round: <input type="text" name ="round">
+        period: <input type="text" name ="period">
+        </div>
+        <input type="submit">
+    </form>
+    <form method="post" action ="http://localhost:3000/api/create_diary">
+      <div>
+        user_id: <input type="text" name ="date">
+        task_name: <input type="text" name = "content">
+        
+      </div>
+      <input type="submit">
+    </form>
+    <div>
+    
+    </div>
+      <form method="post" action ="http://localhost:3001/src/api/pass">
+      <div>
+        file_index: <input type="text" name ="file_index">
+        pass: <input type="text" name = "pass">
+        user_score: <input type= "text" name= "user_score">
+      </div>
+      <input type="submit">
+    </form>
+
+    <footer>
+        <a href="http://blog.naver.com/rwans0397">ejs 예제</a>
+        <a href= "http://localhost:3001/src/api/download?file_index=2">안녕</a>
+    </footer>
+  </body>
+</html>

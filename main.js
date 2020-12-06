@@ -12,6 +12,12 @@ dotenv.config();
 
 app.use(bodyParser.urlencoded({extended:true}));
 app.use(bodyParser.json());
+app.set('view engine', 'ejs');  
+app.set('views', './views');
+
+app.get('/view',function(req,res){
+  res.render('view',{data:'kim'});
+});
 
 // DB 연동
 var mysql      = require('mysql');
@@ -58,7 +64,7 @@ app.post('/api/create_diary', function(req, res){
     var date = post.date;
     var content = post.content;
     
-    /*
+    
     var content = "hello";
 
     // AI 통신 code 들어갈 곳 
@@ -69,13 +75,14 @@ app.post('/api/create_diary', function(req, res){
       scriptPath: '',
       args: [content]
     };
-    PythonShell.PythonShell.run('ai_predict.py', options, function (err, results) {
+    PythonShell.PythonShell.run('test.py', options, function (err, results) {
       if (err) throw err;
     
       console.log('results: %j', results);
     
     });
-    */
+    
+   
     var feeling = 1;
     
     var insert_query = `INSERT INTO contents(user_id, written_date, content) VALUES(0,?,?);`;
