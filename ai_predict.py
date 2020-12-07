@@ -27,16 +27,13 @@ def sentiment_predict(new_sentence):
   pad_new = pad_sequences(encoded, maxlen = max_len) # 패딩
   result = loaded_model.predict(pad_new)[0] # 예측
 
-  print(result)
   max=result[0]
   index=0
   for i in range(0,CLASS_NUM):
-    print(i, end=': ')
-    print("{:.2f}".format(result[i]))
     if result[i] > max:
       max=result[i]
       index=i
-  print('best:',index)
+  print(index)
 
 loaded_model = load_model('best_model.h5') # 가장 훈련 잘된 모델
 sentiment_predict(sys.argv[1])
